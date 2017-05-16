@@ -43,23 +43,20 @@ unsigned long int hash1(char* llave)
 {
 	unsigned long int hash=0;
 	int aux1,i;
-	while(*llave)
+	for(i=0;i<strlen(llave);i++)
 	{
 		if(i%3==0)
 		{
 			aux1=0;
-			aux1+=(int)*llave++;
-			hash+=aux1;
+			aux1+=(int)llave[i];
 		}
 		if(i%3==1)
-			aux1-=(int)*llave++;
-			hash+=aux1;
+			aux1-=(int)llave[i];
 		if(i%3==2)
 		{
-			aux1*=(int)*llave++;
+			aux1*=(int)llave[i];
 			hash+=aux1;
 		}
-		i++;
 	}
 	return hash;
 }
