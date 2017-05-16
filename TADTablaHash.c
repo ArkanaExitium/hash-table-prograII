@@ -43,20 +43,23 @@ unsigned long int hash1(char* llave)
 {
 	unsigned long int hash=0;
 	int aux1,i;
-	for(i=0;i<strlen(llave);i++)
+	while(*llave)
 	{
 		if(i%3==0)
 		{
 			aux1=0;
-			aux1+=(int)llave[i];
-		}
-		if(i%3==1)
-			aux1-=(int)llave[i];
-		if(i%3==2)
-		{
-			aux1*=(int)llave[i];
+			aux1+=(int)*llave++;
 			hash+=aux1;
 		}
+		if(i%3==1)
+			aux1-=(int)*llave++;
+			hash+=aux1;
+		if(i%3==2)
+		{
+			aux1*=(int)*llave++;
+			hash+=aux1;
+		}
+		i++;
 	}
 	return hash;
 }
@@ -64,9 +67,8 @@ unsigned long int hash1(char* llave)
 unsigned long int hash2(char* llave)
 {
 	unsigned long int hash=0;
-	int aux1,i;
-	for(i=0;i<strlen(llave);i++)
-		hash+=(int)llave[i];
+	while(*llave)
+		hash+=(int)*llave++;
 	return hash;
 }
 int numberOfElementsInIndex(tablaHash *h,int index)
