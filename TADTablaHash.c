@@ -1,12 +1,3 @@
-/*
-Para compilar este programa en Linux
-gcc -c TADListaDobleLigada.c
-
-gcc -o -pedantic -Wall -std=c99  heapsortLista heapsortLista.c TADListaDobleLigada.o
-
-./heapsortLista
-
-*/
 #include <stdio.h>
 #include <stdlib.h>	
 #include <string.h> 
@@ -42,6 +33,22 @@ void clearTable(tablaHash *h)//aqui se podria hacer esta funcion no solo para "i
 unsigned long int hash1(char* llave)
 {
 	unsigned long int hash=0;
+	int i;
+	for(i=0;i<strlen(llave);i++)
+	{
+		if(i%3==0)
+			hash+=(int)llave[i];
+		if(i%3==1)
+			hash-=(int)llave[i];
+		if(i%3==2)
+			hash*=(int)llave[i];
+	}
+	return hash;
+}
+/*
+unsigned long int hash1(char* llave)
+{
+	unsigned long int hash=0;
 	int aux1,i;
 	for(i=0;i<strlen(llave);i++)
 	{
@@ -60,6 +67,7 @@ unsigned long int hash1(char* llave)
 	}
 	return hash;
 }
+*/
 //Para hashing cerrado (doble hashing)
 unsigned long int hash2(char* llave)
 {
@@ -143,7 +151,7 @@ void printHashTable(tablaHash *h)
 }
 void insertElementIntoOpenHTable(tablaHash *h,elemento e)
 {	
-	int indice=hash1(e.llave)%HASHSIZE;
+	int indice=abs(hash1(e.llave))%HASHSIZE;
 	if(strcmp("vacio",Position(&h[indice-1],First(&h[indice-1])).llave)==0) // ¿El lugar escogido está vacio?
 	{	
 		Replace(&h[indice-1],ElementPosition(&h[indice-1],1),e);
@@ -244,7 +252,7 @@ void insertElementIntoClosedHTable(tablaHash *h,elemento e)//de hecho,si nos bas
 
 elemento retrieveElementFromOpenHTable(tablaHash *h, char *llave)
 {
-	int indice=hash1(llave)%HASHSIZE;
+	int indice=abs(hash1(llave))%HASHSIZE;
 	int i;
 	elemento e;
 	clock_t start, end;
@@ -275,7 +283,7 @@ elemento retrieveElementFromOpenHTable(tablaHash *h, char *llave)
 }
 void removeElementFromOpenHTable(tablaHash *h, char *llave)//revisar si funciona adecuadamente cuando hay mas de un elemento en una lista en particular de la tabla hash
 {
-	int indice=hash1(llave)%HASHSIZE;//aqui esta el detalle para implementar la funcion borrado en hashing cerrado
+	int indice=abs(hash1(llave))%HASHSIZE;//aqui esta el detalle para implementar la funcion borrado en hashing cerrado
 	int indiceAuxiliar,i;
 	elemento e,e1;
 	posicion posicionElementoAEliminar,p1,p2;
