@@ -33,15 +33,21 @@ void clearTable(tablaHash *h)//aqui se podria hacer esta funcion no solo para "i
 unsigned long int hash1(char* llave)
 {
 	unsigned long int hash=0;
-	int i;
+	int aux1,i;
 	for(i=0;i<strlen(llave);i++)
 	{
 		if(i%3==0)
-			hash+=(int)llave[i];
+		{
+			aux1=0;
+			aux1+=(int)llave[i];
+		}
 		if(i%3==1)
-			hash-=(int)llave[i];
+			aux1-=(int)llave[i];
 		if(i%3==2)
-			hash*=(int)llave[i];
+		{
+			aux1*=(int)llave[i];
+			hash+=aux1;
+		}
 	}
 	return hash;
 }
